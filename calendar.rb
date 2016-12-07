@@ -7,7 +7,7 @@ def get_input
   month = gets.chomp.to_i
   p "put year:"
   year = gets.chomp.to_i
-  while !month.between?(1, 12) && !year.between?(1900, 9999) do
+  while !month.between?(1, 12) || !year.between?(1900, 9999) do
     p "put month:"
     month = gets.chomp.to_i
     p "put year:"
@@ -25,7 +25,7 @@ def process(date, month, year)
     i = i + 1
     date_in_week = Date.new(year, month, i).wday
     day = i.to_s
-    day = "#{i} " if (Math.log10(i).to_i + 1) == 1
+    day = "#{i} " if i <= 10
     days[date_in_week].push(day)
   end
 
@@ -49,6 +49,10 @@ end
 
 input = get_input
 
-total_days_in_month = Date.new(input[:year], input[:month], -1).day.to_i
+input_date = Date.new(input[:year], input[:month], -1)
+
+total_days_in_month = input_date.day.to_i
+
+print "\t #{input_date.strftime("%B")} #{input[:year]} \n"
 
 process(total_days_in_month, input[:month], input[:year])
